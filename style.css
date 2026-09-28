@@ -1,17 +1,33 @@
+html {
+    overflow: hidden;
+}
+
+body {
+    overflow: hidden;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    
+    height: 100%; 
+    color: white; 
+}
+
 /* style for quote */
 .quote {
     white-space: pre-line;
     display: flex;
     align-items: flex-end;
-    position: relative; /* Establishes the positioning context */
+    
+    position: relative;
     width: 33%;
     height: 20%;
-    left: 13%;
+    left: 9%;
     top: 40%;
 }
 
 .quotesayer {
-    position: absolute; /* Positions relative to .parent-element */
+    position: absolute;
     top: 104%;
     right: 0%;
 }

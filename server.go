@@ -17,6 +17,9 @@ func GetMux() *http.ServeMux {
 }
 
 func registerRoutes(mux *http.ServeMux) {
+	fileServer := http.FileServer(http.Dir("./assets"))
+	mux.Handle("GET /assets/", http.StripPrefix("/assets/", fileServer))
+
 	mux.HandleFunc("GET /", handlerQuotes)
 	mux.HandleFunc("GET /styles.css", handlerCssStyle)
 }
@@ -40,11 +43,7 @@ func handlerQuotes(w http.ResponseWriter, r *http.Request) {
 	}
 
 	randomQuote := quotes[rand.N(len(quotes))]
-	if randomQuote.Filepath != "" {
-		// For getting image or video if needed later on
-	}
-
-	resp := fmt.Sprintf(`<h3 class="quote">%s<p class="quotesayer">- %s</p></h3>`, randomQuote.Quote, randomQuote.Name)
+	resp := fmt.Sprintf(`<body style="background-image: url('%s');"><h3 class="quote">%s<p class="quotesayer">- %s</p></h3></body>`, randomQuote.Filepath, randomQuote.Quote, randomQuote.Name)
 
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	w.Header().Set("Link", `</styles.css>; rel="stylesheet"`)
