@@ -1,0 +1,17 @@
+/* style for quote */
+.quote {
+    white-space: pre-line;
+    display: flex;
+    align-items: flex-end;
+    position: relative; /* Establishes the positioning context */
+    width: 33%;
+    height: 20%;
+    left: 13%;
+    top: 40%;
+}
+
+.quotesayer {
+    position: absolute; /* Positions relative to .parent-element */
+    top: 104%;
+    right: 0%;
+}
