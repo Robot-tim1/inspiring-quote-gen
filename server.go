@@ -3,7 +3,6 @@ package server
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"math/rand/v2"
 	"net/http"
@@ -21,7 +20,6 @@ func registerRoutes(mux *http.ServeMux) {
 	mux.Handle("GET /assets/", http.StripPrefix("/assets/", fileServer))
 
 	mux.HandleFunc("GET /", handlerQuotes)
-	mux.HandleFunc("GET /styles.css", handlerCssStyle)
 }
 
 type Quote struct {
@@ -46,24 +44,7 @@ func handlerQuotes(w http.ResponseWriter, r *http.Request) {
 	resp := fmt.Sprintf(`<body style="background-image: url('%s');"><h3 class="quote">%s<p class="quotesayer">- %s</p></h3></body>`, randomQuote.Filepath, randomQuote.Quote, randomQuote.Name)
 
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	w.Header().Set("Link", `</styles.css>; rel="stylesheet"`)
+	w.Header().Set("Link", `</assets/style.css>; rel="stylesheet"`)
 	w.WriteHeader(200)
 	w.Write([]byte(resp))
-}
-
-func handlerCssStyle(w http.ResponseWriter, r *http.Request) {
-	file, err := os.Open("style.css")
-	if err != nil {
-		log.Fatalf("Error opening file: %v", err)
-	}
-	defer file.Close()
-
-	css, err := io.ReadAll(file)
-	if err != nil {
-		log.Fatalf("Error reading css stylesheet: %v", err)
-	}
-
-	w.Header().Set("Content-Type", "text/css")
-	w.WriteHeader(200)
-	w.Write(css)
 }
